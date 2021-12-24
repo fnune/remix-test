@@ -21,12 +21,22 @@ Idea: make it store random facts instead of jokes.
   - `<ScrollRestoration />`, probably aptly-named. Its presence surprises me because this used to be
     a feature of `react-router` that got [dropped][rr-scroll-res] after the developers noticed
     scroll restoration working increasingly better out of the box on major browsers.
-    - [ ] To-do: check how `<ScrollRestoration />` is implemented.
+    - [ ] To-do: find out how `<ScrollRestoration />` is implemented.
     - Remix [documentation on scroll restoration][rm-scroll-res] mentions that this component works
       by restoring the scroll level before rehydration. This should eliminate the jarring effect of
       having the scroll point being restored after the page loads completely.
       - The "before rehydration" part is true only by virtue of the `<ScrollRestoration />`
         component being used one line before the `<Scripts />` component.
+- The `yarn build` command finished in 0.44 seconds. Nice!
+- I like that the default app doesn't contain images or marketing text selling Remix. It just has
+  some documentation links.
+- While adding some code and missing an import, the app showed me a build error (expectedly). But
+  then after fixing the error, the app didn't go back to a normal state, and the error remained,
+  even though the build didn't show the error any longer.
+- Adding the new routes, I'm thinking that the structure where `facts/new` shares a namespace
+  with `facts/$factId` is not great. What if I wanted slugs instead of IDs, and someone created a
+  fact named `new`? Other solutions aren't as pretty, though: `facts/show/$factId + facts/new`,
+  or `new-fact + facts/$factId`.
 
 [rr-scroll-res]: https://v5.reactrouter.com/web/guides/scroll-restoration
 

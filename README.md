@@ -43,7 +43,7 @@ Idea: make it store random facts instead of jokes.
   encapsulated together with a route, then why shouldn't their files live together? Having a
   separate `styles`
   directory adds quite a bit of indirection and could make a project hard to navigate.
-- I'm skipping all of the Prisma stuff, I think it doesn't fit the purposes of a Remix-specific
+- I'm skipping all the Prisma stuff, I think it doesn't fit the purposes of a Remix-specific
   tutorial. Faking my own database with `async` functions.
 - I wonder why the tutorial recommends using `export let`. It looks to me as if the things I'm
   exporting shouldn't ever be reassigned. I'm changing these to `export const`, hoping that nothing
@@ -57,8 +57,32 @@ Idea: make it store random facts instead of jokes.
   - [ ] To-do: find out why `export const loader` can't be used directly and needs to be accessed
         via `useDataLoader`. My guess: the purpose is to call the loader during server rendering and
         then to reuse the same data during rehydration, to initialize a frontend cache with. Remix
-        developers simply decided to to for a standard way to access Remix functionality, and this just
+        developers simply decided to for a standard way to access Remix functionality, and this just
         looks consistent.
+- There's another insidious result of the indirection introduced by the `useDataLoader`
+  and `export const loader` pattern, aggravated by the fact that the suggested type `LoaderFunction`
+  isn't generic: discrepancies between what `loader` actually returns and what `useDataLoader`
+  returns aren't going to be caught unless a type is shared between them. But `LoaderFunction` isn't
+  generic, so there's no enforcement from Remix to make sure that this is the case. I can have
+  a `loader` that returns `number` but then access `string[]` in `useDataLoader` and unless I
+  actively share the types, TypeScript won't have a chance to complain. In my
+  opinion, `LoaderFunction` should take a required type argument for the return type, and another (
+  perhaps optional?) for query parameters.
+  - One could argue that this is the responsibility of the developer, and it is, but by not
+    requiring any type arguments, Remix isn't helping.
+  - It's also inconsistent because `LoaderFunction` takes no type arguments but `useDataLoader`
+    takes a type argument for the returned data.
+- When submitting data, the type mismatch is more accentuated, because `POST` requests
+  contain `FormData`, which bears (as far as I know) no information on the shape of the data from
+  the form. In this case, however, it matters less, because the tutorial calls the user to perform
+  backend validation/parsing of this form data, by going `form.get("field-name")` and then
+  validating the result.
+  - I wonder whether building a way to type-check JSX forms and providing e.g. a TS `eslint` plug-in
+    that uses the full power of the AST to build type-safe forms would be worth it. I suppose
+    exporting a simple component for use, `TypedForm<T>` would be enough, or perhaps even more
+    magic, somehow simply type-check `<form>` elements based on their current children. This is
+    probably not possible because one would need to go into other modules. Maybe the `TypedForm<T>`
+    approach is good as long as one shares `T` with child controls.
 
 [rr-scroll-res]: https://v5.reactrouter.com/web/guides/scroll-restoration
 [rm-scroll-res]: https://remix.run/docs/en/v1/api/remix#scrollrestoration

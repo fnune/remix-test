@@ -37,10 +37,15 @@ Idea: make it store random facts instead of jokes.
   with `facts/$factId` is not great. What if I wanted slugs instead of IDs, and someone created a
   fact named `new`? Other solutions aren't as pretty, though: `facts/show/$factId + facts/new`,
   or `new-fact + facts/$factId`.
+- By exporting a `links` array, you can add `<link>` elements to `<head>` sort of like
+  with [`react-helmet`][rh]. They then get picked up by a top-level `<Links />` component.
+- The tutorial recommends a file structure that's not great. If the CSS I write is encapsulated
+  together with a route, then why shouldn't their files live together? Having a separate `styles`
+  directory adds quite a bit of indirection and could make a project hard to navigate.
 
 [rr-scroll-res]: https://v5.reactrouter.com/web/guides/scroll-restoration
-
 [rm-scroll-res]: https://remix.run/docs/en/v1/api/remix#scrollrestoration
+[rh]: https://github.com/nfl/react-helmet
 
 ## Default Remix `README.md`
 

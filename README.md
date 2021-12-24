@@ -1,12 +1,36 @@
 # remix-test
 
-To begin with, I'm following the [Remix "Jokes" app tutorial](https://remix.run/docs/en/v1/tutorials/jokes).
+To begin with, I'm following
+the [Remix "Jokes" app tutorial](https://remix.run/docs/en/v1/tutorials/jokes).
 
 Idea: make it store random facts instead of jokes.
 
 ## Learning notes
 
-- Remix nuked this `README.md` file and I had to recreate it. Should have expected that! Adding the contents below instead.
+- Remix nuked this `README.md` file and I had to recreate it. Should have expected that! Adding the
+  contents below instead.
+- The default `entry.server.tsx` file contains a `handleRequest` function that takes a `request`.
+  That's fine, but it also takes a `responseStatusCode` and `responseHeaders`. Am I still able to
+  decide what status code to respond with? This signature is a bit weird to me.
+- Since Remix picks up on certain exports from files (like `export const meta`) but my IDE doesn't
+  know about that, I'm getting a bunch of linter errors on those lines. I'm not sure where the
+  errors are coming from, since from my recollection `eslint` doesn't complain about unused exports.
+  It has no knowledge of the other files. It's probably IntelliJ then.
+- The default `root.tsx` contains several interesting elements:
+  - `<Outlet />` which is like a Svelte `<slot />`, as far as I remember.
+  - `<ScrollRestoration />`, probably aptly-named. Its presence surprises me because this used to be
+    a feature of `react-router` that got [dropped][rr-scroll-res] after the developers noticed
+    scroll restoration working increasingly better out of the box on major browsers.
+    - [ ] To-do: check how `<ScrollRestoration />` is implemented.
+    - Remix [documentation on scroll restoration][rm-scroll-res] mentions that this component works
+      by restoring the scroll level before rehydration. This should eliminate the jarring effect of
+      having the scroll point being restored after the page loads completely.
+      - The "before rehydration" part is true only by virtue of the `<ScrollRestoration />`
+        component being used one line before the `<Scripts />` component.
+
+[rr-scroll-res]: https://v5.reactrouter.com/web/guides/scroll-restoration
+
+[rm-scroll-res]: https://remix.run/docs/en/v1/api/remix#scrollrestoration
 
 ## Default Remix `README.md`
 
@@ -40,7 +64,8 @@ Now you'll need to pick a host to deploy it to.
 
 #### DIY
 
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
+If you're familiar with deploying node applications, the built-in Remix app server is
+production-ready.
 
 Make sure to deploy the output of `remix build`
 
@@ -49,7 +74,9 @@ Make sure to deploy the output of `remix build`
 
 #### Using a Template
 
-When you ran `npx create-remix@latest` there were a few choices for hosting. You can run that again to create a new project, then copy over your `app/` folder to the new project that's pre-configured for your target server.
+When you ran `npx create-remix@latest` there were a few choices for hosting. You can run that again
+to create a new project, then copy over your `app/` folder to the new project that's pre-configured
+for your target server.
 
 ```sh
 cd ..

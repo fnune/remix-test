@@ -39,9 +39,15 @@ Idea: make it store random facts instead of jokes.
   or `new-fact + facts/$factId`.
 - By exporting a `links` array, you can add `<link>` elements to `<head>` sort of like
   with [`react-helmet`][rh]. They then get picked up by a top-level `<Links />` component.
-- The tutorial recommends a file structure that's not great. If the CSS I write is encapsulated
-  together with a route, then why shouldn't their files live together? Having a separate `styles`
+- The tutorial recommends a file structure for styles that's not great. If the CSS I write is
+  encapsulated together with a route, then why shouldn't their files live together? Having a
+  separate `styles`
   directory adds quite a bit of indirection and could make a project hard to navigate.
+- I'm skipping all of the Prisma stuff, I think it doesn't fit the purposes of a Remix-specific
+  tutorial. Faking my own database with `async` functions.
+- I wonder why the tutorial recommends using `export let`. It looks to me as if the things I'm
+  exporting shouldn't ever be reassigned. I'm changing these to `export const`, hoping that nothing
+  explodes.
 
 [rr-scroll-res]: https://v5.reactrouter.com/web/guides/scroll-restoration
 [rm-scroll-res]: https://remix.run/docs/en/v1/api/remix#scrollrestoration

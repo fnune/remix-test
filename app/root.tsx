@@ -3,7 +3,7 @@ import { LinksFunction } from "@remix-run/react/routeModules";
 
 import styles from "./styles/global.css";
 
-export let links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export default function App() {
   return (

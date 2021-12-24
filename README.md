@@ -48,6 +48,17 @@ Idea: make it store random facts instead of jokes.
 - I wonder why the tutorial recommends using `export let`. It looks to me as if the things I'm
   exporting shouldn't ever be reassigned. I'm changing these to `export const`, hoping that nothing
   explodes.
+- The `useDataLoader` pattern with an `export const loader` coupled with a `useDataLoader` call (
+  imported from `remix`) feels a bit weird to me. I suppose there must be quite a bit going on at
+  build time for this to be worth the indirection. My first impression is that if it shouldn't be
+  necessary? Why can't I go `export const loader = someRemixUtility(async () => {})` instead (
+  removing the `useDataLoader` call inside the component)? The client and server bundles can still
+  provide different implementations of `someRemixUtility`.
+  - [ ] To-do: find out why `export const loader` can't be used directly and needs to be accessed
+        via `useDataLoader`. My guess: the purpose is to call the loader during server rendering and
+        then to reuse the same data during rehydration, to initialize a frontend cache with. Remix
+        developers simply decided to to for a standard way to access Remix functionality, and this just
+        looks consistent.
 
 [rr-scroll-res]: https://v5.reactrouter.com/web/guides/scroll-restoration
 [rm-scroll-res]: https://remix.run/docs/en/v1/api/remix#scrollrestoration
